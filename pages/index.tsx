@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <Page>
       <h1 className="text-2xl">
-        Welcome to Diod Protocol
+        Welcome to Diode Protocol
       </h1>
     </Page>
   )
