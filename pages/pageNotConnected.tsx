@@ -22,3 +22,5 @@ export const PageNotConnected = () => {
         </Page>
     );
 }
+
+export default PageNotConnected;

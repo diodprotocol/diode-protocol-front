@@ -54,3 +54,5 @@ export const PageConnected = () => {
         </Fragment>
     );
 }
+
+export default PageConnected;
