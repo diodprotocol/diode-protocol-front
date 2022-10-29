@@ -1,5 +1,4 @@
-import { useEffect, Dispatch } from "react";
-// import { useFactoryReadSupportedVestingPeriods } from "../../hooks/useFactoryRead";
+import { Dispatch } from "react";
 import { ChooseButton } from "../common/chooseButton";
 import { ChooseButtonWrapper } from "../common/chooseButtonWrapper";
 import { StepperPannel } from "../stepper/stepperPannel";
@@ -15,9 +14,7 @@ const getTimestampInNdays = (nDays: number): number => {
 const formatTimeStart = (timeStart: string): string => {
     if (timeStart === "") return "";
     if (timeStart === "0") return "";
-
     let date = new Date(timeStart);
-    console.log("Coucou");
     return date.toISOString();
 }
 
@@ -35,8 +32,6 @@ const timeStartChoices = [
         value: getTimestampInNdays(30)
     }
 ];
-
-console.log(timeStartChoices);
 
 const durationChoices = [
     {
