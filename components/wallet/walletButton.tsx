@@ -1,10 +1,10 @@
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Button } from "../common/button";
 
 
 export const WalletButton = () => {
-
     return (
       <ConnectButton.Custom>
         {({
@@ -40,105 +40,52 @@ export const WalletButton = () => {
               {(() => {
                 if (!connected) {
                   return (
-                    <button 
-                        className="
-                        h-9
-                        px-3
-                        flex flex-row items-center justify-start
-                        rounded-md
-                        text-sm
-                        font-semibold
-                        text-zinc-200 hover:text-white
-                        bg-zinc-800 hover:bg-teal-400/60
-                        transition ease-in-out duration-100 hover:scale-110
-                        "
-                      onClick={ openConnectModal } 
-                      type="button" 
-                    >
+                    <Button onClick={ openConnectModal }>
                       Connect Wallet
-                    </button>
+                    </Button>
                   );
                 }
   
                 if (chain.unsupported) {
                   return (
-                    <button 
-                      className="
-                      h-9
-                      px-3
-                      flex flex-row items-center justify-start
-                      rounded-md
-                      text-sm
-                      font-semibold
-                      text-zinc-200 hover:text-white
-                      bg-zinc-800 hover:bg-teal-400/60
-                      transition ease-in-out duration-100 hover:scale-110
-                      "
-                      onClick={ openChainModal }
-                    >
+                    <Button onClick={ openChainModal }>
                       Wrong network
-                    </button>                
+                    </Button>
                   );
                 }
   
                 return (
                   <div className="flex flex-row items-center justify-start gap-4">
                     
-                    <button
-                        className="
-                        h-9
-                        px-3
-                        flex flex-row items-center justify-start gap-2
-                        rounded-md
-                        text-sm
-                        font-semibold
-                        text-zinc-200 hover:text-white
-                        bg-zinc-800 hover:bg-teal-400/60
-                        transition ease-in-out duration-100 hover:scale-110
-                        "
-                        onClick={ openChainModal }
-                        type="button"
-                    >
+                    <Button onClick={ openChainModal }>
                       { chain.hasIcon && (
                         <div>
                             {chain.iconUrl && (
-                                <Image
-                                  alt={ chain.name ?? 'Chain icon' }
-                                  src={ chain.iconUrl }
-                                  style={{ width: 16, height: 16 }}
-                                />
-                            )}
+                              <Image
+                              alt={ chain.name ?? 'Chain icon' }
+                              src={ chain.iconUrl }
+                              width={ 16 }
+                              height={ 16 }                                  
+                              />
+                              )}
                         </div>
                       )}
                       <div className="hidden md:flex">
                         { chain.name }
                       </div>
-                    </button>
-  
-                    <button
-                        className="
-                        h-9
-                        px-3
-                        flex flex-row items-center justify-start
-                        rounded-md
-                        text-sm
-                        font-semibold
-                        text-zinc-200 hover:text-white
-                        bg-zinc-800 hover:bg-teal-400/60
-                        transition ease-in-out duration-100 hover:scale-110
-                        "
-                        onClick={ openAccountModal }
-                        type="button"
-                    >
+                    </Button>
+                    
+                    <Button onClick={ openAccountModal }>
                       <div className="flex flex-row items-center justify-start gap-2">
                         <div className="hidden md:flex">
-                          { account.displayBalance ? `${account.displayBalance}` : ''}
+                          { account.displayBalance ? `${ account.displayBalance }` : ''}
                         </div>
                         <div className="bg-zinc-700 rounded-lg px-2">
                           { account.displayName }
                         </div>
                       </div>
-                    </button>
+                    </Button>    
+
                   </div>
                 );
               })()}

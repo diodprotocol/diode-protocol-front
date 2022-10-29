@@ -1,14 +1,29 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Page } from '../components/common/page'
-import styles from '../styles/Home.module.css'
+import { useAccount } from "wagmi";
+import { PageConnected } from "./pageConneced";
+import { PageNotConnected } from "./pageNotConnected";
+import Head from "next/head";
+
 
 export default function Home() {
+
+  const { isConnected } = useAccount();
+
+  let page
+
+  if (isConnected) {
+    page = <PageConnected />;        
+  } else {
+    page = <PageNotConnected />
+  }
+
   return (
-    <Page>
-      <h1 className="text-2xl">
-        Welcome to Diode Protocol
-      </h1>
-    </Page>
+    <div>
+      <Head>
+        <title> Diode Protocol </title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="icon" type="image/png" href="/images/favicon.ico" />
+      </Head>
+      { page } 
+    </div>
   )
 }

@@ -7,20 +7,23 @@ import { getDefaultWallets, RainbowKitProvider, midnightTheme } from "@rainbow-m
 
 import "@rainbow-me/rainbowkit/styles.css";
 
+console.log("process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI")
+console.log(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI)
+
 const { chains, provider } = configureChains(
   [
-    chain.mainnet,
+    // chain.mainnet,
     chain.goerli,
   ],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_API_KEY_FOR_MAINNET }),
-    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_API_KEY_FOR_GOERLI }),
-    publicProvider()
+    // alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_API_KEY_FOR_MAINNET }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI }),
+    // publicProvider()
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "DiodProtocol",
+  appName: "DiodeProtocol",
   chains
 });
 

@@ -13,7 +13,7 @@ export const Header = () =>  {
                     <DiodIcon />
                 </div>
                 <div className="text-left text-xl font-semibold text-zinc-200 w-full">
-                    Diod Protocol
+                    Diode Protocol
                 </div>
             </div>
             <div className="flex justify-end">
