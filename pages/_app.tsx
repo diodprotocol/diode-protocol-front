@@ -1,14 +1,11 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { getDefaultWallets, RainbowKitProvider, midnightTheme } from "@rainbow-me/rainbowkit";
 
 import "@rainbow-me/rainbowkit/styles.css";
 
-console.log("process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI")
-console.log(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI)
 
 const { chains, provider } = configureChains(
   [

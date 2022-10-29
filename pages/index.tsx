@@ -8,12 +8,11 @@ export default function Home() {
 
   const { isConnected } = useAccount();
 
-  let page
-
+  let page;
   if (isConnected) {
     page = <PageConnected />;        
   } else {
-    page = <PageNotConnected />
+    page = <PageNotConnected />;
   }
 
   return (
