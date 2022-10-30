@@ -6,7 +6,7 @@ import { TransactionTabTitle } from '../transaction/transactionTabTitle';
 import { VaultWithdraw } from './vaultWithdraw';
 
 
-export const VaultAction = () => {
+export const VaultAction = (props: { contractAddress: string }) => {
 
     const router = useRouter();
     const { contractAddress } = router.query;
@@ -26,7 +26,11 @@ export const VaultAction = () => {
     }
 
     return (
-        <div className="w-full h-max">
+        <div className="
+            w-full 
+            h-full
+            "
+        >
 
             <Tab.Group>
 
@@ -37,7 +41,7 @@ export const VaultAction = () => {
                     </Tab.List>                        
                 </div>
 
-                <Tab.Panels className="w-full flex py-2">
+                <Tab.Panels className="w-full h-full flex">
 
                     <TabPanel>
                         { vaultDeposit }

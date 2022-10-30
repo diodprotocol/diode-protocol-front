@@ -1,9 +1,10 @@
 import { ReactNode, Dispatch } from "react";
+import { Button, DarkButton } from "../common/button";
 
 
 export const FactoryAction = (props: { children: ReactNode }) => {
     return (
-        <div className="py-1 text-sm text-semibold">
+        <div className="py-[0.5px] text-sm font-sans font-light">
             { props.children }
         </div>
     );
@@ -20,25 +21,25 @@ export const FactoryTip = (props: { children: ReactNode }) => {
 
 
 export const FactoryButton = (props: { children: ReactNode, onClick: () => void, disabled?: boolean }) => {
+    if (props.disabled) {
+        return (
+            <DarkButton 
+                onClick={ props.onClick } 
+                disabled={ props.disabled }
+                wfull={ true }
+            >
+                { props.children }                
+            </DarkButton>
+        );
+    }
     return (
-        <button 
+        <Button
             onClick={ props.onClick } 
-            className={`
-                w-full 
-                py-2 px-10
-                flex flew-row justify-center items-center
-                rounded-lg
-                text-sm
-                font-semibold
-                hover:bg-orange-400/70
-                transition ease-in-out hover:scale-105 duration-100
-                ${ (props.disabled) ? "bg-zinc-900" : "bg-orange-400/60" }
-
-            `}
             disabled={ props.disabled }
-        >
-            { props.children }
-        </button>
+            wfull={ true }
+        > 
+                { props.children }            
+        </Button>
     );
 }
 
@@ -80,9 +81,12 @@ interface PropsContestFactoryInput {
 export const FactoryInput = (props: PropsContestFactoryInput) => {
     return (
         <div className="w-full text-zinc-100 text-base flex flex-col justify-start items-start">
-            <div className="h-11 w-full relative bg-zinc-900 rounded-lg text-zinc-100 pl-6 pr-4 py-1 text-sm flex flex-row justify-start items-center">
+            <div className="h-11 w-full relative bg-zinc-900 rounded-lg text-zinc-100 pl-2 pr-4 py-1 text-sm flex flex-row justify-start items-center">
+                <div className="min-w-fit pl-2 top-1/4 right-5 font-light text-sm font-sans">
+                    { props.title }
+                </div>
                 <input 
-                    className="w-full flex justify-center outline-none bg-transparent text-center"
+                    className="w-full flex justify-center outline-none bg-transparent text-right text-sm font-light font-sans"
                     placeholder={ props.placeholder }
                     min={ props.min }
                     step={ props.step }
@@ -90,9 +94,11 @@ export const FactoryInput = (props: PropsContestFactoryInput) => {
                     value={ props.value }
                     onChange={ props.setValue ? (event) => props.setValue!(event.target.value) : undefined }
                 />
+                
                 <div className="absolute min-w-fit px-4 top-1/4 right-5 italic">
                     { props.unit }
                 </div>
+
             </div>
         </div>
     );

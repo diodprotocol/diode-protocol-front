@@ -18,10 +18,10 @@ export const TransactionButton = (props: PropsTransactionButton) => {
             className={
                 `
                 w-full 
-                py-2
+                py-3
                 px-2
                 relative 
-                flex justify-center 
+                flex flex-row justify-center items-center
                 text-sm 
                 text-left                 
                 font-light
@@ -29,7 +29,7 @@ export const TransactionButton = (props: PropsTransactionButton) => {
                 border-zinc-200
                 border-[0.2px]
                 rounded-md
-                ${ (props.bgSecondary) ? "bg-purple-400/60" : "bg-zinc-900" } hover:bg-orange-400/60
+                ${ (props.bgSecondary) ? "bg-violet-600" : "bg-zinc-900" } hover:bg-violet-600
                 `}
             onClick={ props.onClick }
             disabled={ props.disabled }
@@ -41,7 +41,7 @@ export const TransactionButton = (props: PropsTransactionButton) => {
 
             {
                 ( props.disabled ) ? null :
-                <div className="absolute right-5 top-1/4">
+                <div className="absolute right-5 ">
                     <ShowIcon
                         isError={ props.isError }
                         isWaiting={ props.isWaiting }

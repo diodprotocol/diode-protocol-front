@@ -1,8 +1,6 @@
 import { Fragment, useState, Dispatch, useEffect } from "react";
-import truncateEthAddress from "truncate-eth-address";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-
 import { Asset } from "../interface/asset";
 
 
@@ -34,11 +32,12 @@ export const AddressListbox = (props: { listOfAddress: Array<Asset>, setAssetAdd
                             cursor-default 
                             rounded-lg 
                             bg-zinc-900 
-                            text-center
-                            text-sm
+                            text-right
+                            text-xs
+                            font-light
                             "
                     >
-                        <span className="block truncate">
+                        <span className="block truncate font-light text-xs">
                             { (!selected) ? null : `${ selected.name } (${ selected.address })` }
                         </span>
 
@@ -71,6 +70,7 @@ export const AddressListbox = (props: { listOfAddress: Array<Asset>, setAssetAdd
                                             select-non 
                                             py-2 pl-10 pr-4
                                             text-xs
+                                            font-light
                                             ${active ? 'bg-zinc-600 text-white' : 'text-zinc-100'}
                                             `
                                         }
@@ -87,7 +87,7 @@ export const AddressListbox = (props: { listOfAddress: Array<Asset>, setAssetAdd
                                                 </span>
                                                 {selected ? (
                                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                                    <CheckIcon className="h-5 w-5 text-zinc-100" aria-hidden="true" />
+                                                    <CheckIcon className="h-5 w-5 text-zinc-100 font-light" aria-hidden="true" />
                                                     </span>
                                                 ) : null}
                                             </>

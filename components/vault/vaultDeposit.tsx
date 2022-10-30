@@ -18,6 +18,10 @@ import {
     useContractErc20ReadBalanceOf,
     useContractErc20ReadSymbol,
 } from "../../lib/hooks/useContractErc20Read";
+import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
+import { useContractErc20WriteApprove } from "../../lib/hooks/useContractErc20Write";
+import { useContractVaultWriteDeposit } from "../../lib/hooks/useContractVaultWrite";
+import { TransactionChooseLongShort } from "../transaction/transactionChooseLongShort";
 
 
 const ZeroActionButton = (props: { children: ReactNode }) => {
@@ -34,59 +38,61 @@ const ApproveDepositButton = (props: { assetAddress: string, contractAddress: st
     
     const [ debouncedApproveAmmount ] = useDebounce(props.approveAmmount, 1000);
     
-    // const approve = useContractWriteApprove(props.assetAddress, props.contractAddress, debouncedApproveAmmount);
-    // useEffect(() => {
-    //     if (approve.transaction.isSuccess) {
-    //         props.onTransactionSucess();
-    //     }
-    // }, [ approve.transaction.isSuccess ]); // eslint-disable-line react-hooks/exhaustive-deps
+    const approve = useContractErc20WriteApprove(props.assetAddress, props.contractAddress, debouncedApproveAmmount);
+    useEffect(() => {
+        if (approve.transaction.isSuccess) {
+            props.onTransactionSucess();
+        }
+    }, [ approve.transaction.isSuccess ]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <TransactionButton
-            // onClick={ () => approve.writeContract.write?.() }
-            // disabled={ !approve.writeContract.write }
-            // isError={ approve.writeContract.isError || approve.transaction.isError }
-            // isWaiting={ ( approve.writeContract.isLoading || approve.writeContract.isSuccess ) && approve.transaction.isLoading }
-            // isSuccess={ approve.transaction.isSuccess }
+            onClick={ () => approve.writeContract.write?.() }
+            disabled={ !approve.writeContract.write }
+            isError={ approve.writeContract.isError || approve.transaction.isError }
+            isWaiting={ ( approve.writeContract.isLoading || approve.writeContract.isSuccess ) && approve.transaction.isLoading }
+            isSuccess={ approve.transaction.isSuccess }
         >
             { `Authorize deposit for ${ props.assetSymbol }` }
         </TransactionButton>
     );
 }
 
-const DepositButton = (props: { contractAddress: string, depositAmount: BigNumber|undefined, receiverAddress: string, clearDepositAmount: () => void }) => {
+const DepositButton = (props: { contractAddress: string, depositAmount: BigNumber|undefined, clearDepositAmount: () => void, position: string }) => {
 
-    // const [ debouncedDepositAmount ] = useDebounce(props.depositAmount, 1000);
-    // const deposit = useContractWriteDeposit(props.contractAddress, debouncedDepositAmount, props.receiverAddress);
+    const [ debouncedDepositAmount ] = useDebounce(props.depositAmount, 1000);
+    const deposit = useContractVaultWriteDeposit(props.contractAddress, debouncedDepositAmount, props.position === "long");
 
-    // useEffect(() => {
-    //     if (deposit.transaction.isSuccess) {
-    //         props.clearDepositAmount();
-    //     }
-    // }, [ deposit.transaction.isSuccess ]); // eslint-disable-line react-hooks/exhaustive-deps
-
+    useEffect(() => {
+        if (deposit.writeContract.isIdle) {
+            deposit.writeContract.reset();
+        }
+        if (deposit.transaction.isSuccess) {
+            props.clearDepositAmount();
+        }
+    }, [ deposit.transaction.isSuccess ]); // eslint-disable-line react-hooks/exhaustive-deps
+    
     return (
         <TransactionButton
-            // onClick={ () => deposit.writeContract.write?.()  }
-            // disabled={ false }
-            // isError={ deposit.writeContract.isError || deposit.transaction.isError }
-            // isWaiting={ ( deposit.writeContract.isLoading || deposit.writeContract.isSuccess ) && deposit.transaction.isLoading }
-            // isSuccess={ deposit.transaction.isSuccess }
+            onClick={ () => deposit.writeContract.write?.()  }
+            disabled={ false }
+            isError={ deposit.writeContract.isError || deposit.transaction.isError }
+            isWaiting={ ( deposit.writeContract.isLoading || deposit.writeContract.isSuccess ) && deposit.transaction.isLoading }
+            isSuccess={ deposit.transaction.isSuccess }
         >
             Deposit
         </TransactionButton>
     );
 }
 
-const DepositLogic = (props: { contractAddress: string, depositAmount: BigNumber|undefined, clearDepositAmount: () => void }) => {
+const DepositLogic = (props: { contractAddress: string, depositAmount: BigNumber|undefined, clearDepositAmount: () => void, position: string }) => {
 
     const { address } = useAccount();
-    
-    // useContractReadAsset(props.contractAddress);
-    const asset = "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f";        
-    const currentAssetAllowance = useContractErc20ReadAllowance(asset, address!, asset);
-    const currentAssetBalance = useContractErc20ReadBalanceOf(asset, address!);
-    const currentAssetSymbol = useContractErc20ReadSymbol(asset);
+        
+    const asset = useContractVaultRead(props.contractAddress, "suppliedAsset");
+    const currentAssetAllowance = useContractErc20ReadAllowance(asset.value!, address!, props.contractAddress);
+    const currentAssetBalance = useContractErc20ReadBalanceOf(asset.value!, address!);
+    const currentAssetSymbol = useContractErc20ReadSymbol(asset.value!);
     
     let shouldFirstApprove: boolean|undefined;
     
@@ -118,7 +124,7 @@ const DepositLogic = (props: { contractAddress: string, depositAmount: BigNumber
     if ( shouldFirstApprove === true) {
         return (
             <ApproveDepositButton
-                assetAddress={ asset }
+                assetAddress={ asset.value! }
                 contractAddress={ props.contractAddress }
                 approveAmmount={ props.depositAmount.add(BigNumber.from("1")) }
                 onTransactionSucess={ () => currentAssetAllowance.refetch() }
@@ -130,8 +136,8 @@ const DepositLogic = (props: { contractAddress: string, depositAmount: BigNumber
             <DepositButton
                 contractAddress={ props.contractAddress }
                 depositAmount={ props.depositAmount! }
-                receiverAddress={ address! }
                 clearDepositAmount={ props.clearDepositAmount }
+                position={ props.position }
             />
         );
     } else {
@@ -154,23 +160,16 @@ export const VaultDeposit = (props: { contractAddress: string }) => {
     const { address } = useAccount();
 
     const [ unit, setUnit ] = useState<string>("ether");
+    const [ position, setPosition ] = useState<string>("long");
+
     const [ userAssets, setUserAssets] = useState<string>("");
     const [ userAssetsInWei, setUserAssetsInWei] = useState<BigNumber>(BigNumber.from("0"));
     const [ debounceUserAssetsInWei ] = useDebounce(userAssetsInWei, 2000);
 
-    const asset = "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f"; // useContractReadAsset(props.contractAddress);
-    
-    const currentAssetBalance = useContractErc20ReadBalanceOf(asset, address!);
-    console.log("currentAssetBalance", currentAssetBalance);
-
-    // const previewDeposit = useContractReadPreviewDeposit(props.contractAddress, (debounceUserAssetsInWei) ? debounceUserAssetsInWei : undefined);
-    // const depositConvertToShare = useContratReadConvertToShares(props.contractAddress, (debounceUserAssetsInWei) ? debounceUserAssetsInWei : undefined);
-    
-    const displayCurrentAssetBalance = helperFormatUnit(currentAssetBalance.value, unit);
-    const displayReceivedShares = ""; //helperFormatUnit(depositConvertToShare.value, unit);
-    const displayFutureShareBalance = ""; //(currentShareBalance.value && previewDeposit.value ) ?
-        // helperFormatUnit( (BigNumber.from(currentShareBalance.value).add(BigNumber.from(previewDeposit.value!))).toString(), unit) : "";
-
+    const asset = useContractVaultRead(props.contractAddress, "suppliedAsset");
+    const currentAssetBalance = useContractErc20ReadBalanceOf(asset.value!, address!);    
+    const displayCurrentAssetBalance = helperFormatUnit(currentAssetBalance.value!, unit);
+            
     const changeRate = (item: number): string => {
         if (!currentAssetBalance.value) return "";
         const multiplier = BigNumber.from(item);
@@ -215,12 +214,13 @@ export const VaultDeposit = (props: { contractAddress: string }) => {
             
             <div className="w-full flex flex-row justify-between items-center text-normal text-left font-semibold gap-2">
                 <TransactionChooseUnit setUnit={ setUnit } currentUnit= { unit }/>
-                <TransactionAddress address={ props.contractAddress } label="Vault" />
+                <TransactionChooseLongShort setPosition={ setPosition } currentPosition={ position } />                
             </div>
                                     
-            <DepositLogic 
+            <DepositLogic
                 contractAddress={ props.contractAddress }
                 depositAmount={ debounceUserAssetsInWei }
+                position={ position }
                 clearDepositAmount={ () => setUserAssets("0") }
             />
            

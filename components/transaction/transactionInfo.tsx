@@ -6,9 +6,10 @@ interface PropsInfoDiv {
 export const TransactionInfo = (props: PropsInfoDiv) => {
     return (    
         <div className="
+            h-10
             w-full 
             px-4 
-            py-2 
+            py-2
             flex flex-row justify-between items-center gap-4
             text-sm
             text-zinc-200

@@ -1,14 +1,9 @@
 import { Dispatch } from "react";
 
 
-export const TransactionChooseUnit = (props: { setUnit: Dispatch<string>, units?: Array<string>, currentUnit?: string}) => {
-    let units: Array<string>;
-    
-    if (!props.units) {
-        units = ["ether", "gwei", "wei"];
-    } else {
-        units = props.units;
-    }
+export const TransactionChooseLongShort = (props: { setPosition: Dispatch<string>, currentPosition?: string}) => {
+    let units: Array<string>;    
+    units = ["long", "short"];
 
     return (
         <div className="
@@ -26,10 +21,10 @@ export const TransactionChooseUnit = (props: { setUnit: Dispatch<string>, units?
                     <div 
                         className={`
                             px-4 py-1.5 mx-auto text-xs font-light font-mono hover:text-white
-                            ${ (units[index] === props.currentUnit) ? "bg-violet-600/70" : "bg-zinc-800" }
+                            ${ (units[index] === props.currentPosition) ? "bg-violet-600/70" : "bg-zinc-800" }
                         `}
                         key={ index }
-                        onClick={ () => props.setUnit(units[index]) } 
+                        onClick={ () => props.setPosition(units[index]) } 
                     >
                         { item }
                     </div>

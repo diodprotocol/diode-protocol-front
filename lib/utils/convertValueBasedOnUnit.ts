@@ -16,9 +16,6 @@ export const helperParseUnit = (value?: string, decimalsOrUnitName?: string): Bi
         try {
             return ethers.utils.parseUnits(value, decimalsOrUnitName.toLowerCase());
         } catch (e) {            
-            console.log("coucou");
-            console.log(value, decimalsOrUnitName);
-            console.log(e);
             return BigNumber.from("0");
         }
     }

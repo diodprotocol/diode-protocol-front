@@ -16,7 +16,7 @@ export const TransactionAddress = (props: PropsEthAddress) => {
             <div className="text-xs font-mono truncate">
                 { (props.address) ? truncateEthAddres(props.address) : null }
             </div>
-            <div className="bg-slate-600 rounded-full p-1 transition ease-in-out duration-150 hover:scale-110">
+            <div className="bg-zinc-600 rounded-full p-1 transition ease-in-out duration-150 hover:scale-110">
                 {/* <ToolTip tooltip="Copy address"> */}
                     <DocumentDuplicateIcon className="w-4 h-4" onClick={() => { navigator.clipboard.writeText(props.address) }} />
                 {/* </ToolTip> */}

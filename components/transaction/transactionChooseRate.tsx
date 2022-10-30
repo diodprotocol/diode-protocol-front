@@ -1,4 +1,5 @@
 import { Dispatch } from "react";
+import { Button, HoverButton } from "../common/button";
 
 
 export const TransactionChooseRate = (props: { setRate: Dispatch<number>, values?: Array<number> }) => {
@@ -12,16 +13,22 @@ export const TransactionChooseRate = (props: { setRate: Dispatch<number>, values
     }
 
     return (
-        <div className="w-full flex flex-row justify-between items-center gap-4">
+        <div className="
+            h-10 
+            w-full 
+            flex flex-row justify-between items-center gap-2
+            "
+        >
             {
                 values.map((item, index) => (
-                    <button 
+                    <HoverButton
                         key={ index }
-                        className="w-24 px-4 py-2 text-xs font-semibold rounded-md bg-zinc-800 hover:bg-orange-400/60 hover:text-white"
-                        onClick={ () => props.setRate(item) }
+                        onClick={ () => props.setRate(item) }                        
                     >
-                        { `${ item } %` }
-                    </button>
+                        <div className="h-full">
+                            { `${ item } %` }
+                        </div>
+                    </HoverButton>
                 ))
             }
         </div>

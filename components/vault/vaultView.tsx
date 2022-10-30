@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { Button, DarkButton } from "../common/button";
+import { EthAddress } from "../common/ethAddress";
+
 
 export interface PropsVaultView {
     name: string;
@@ -60,31 +63,38 @@ const VaultBlockView = (props: {children: ReactNode, reverse?: boolean}) => {
 }
 
 export const VaultView = (props: PropsVaultView) => {
+    
     const router = useRouter();
+
+    const name = useContractVaultRead(props.assetPoolAddress, "name");
+    const symbol = useContractVaultRead(props.assetPoolAddress, "symbol");
+    const totalDeposits = useContractVaultRead(props.assetPoolAddress, "totalDeposits");
+
     return (
         <div className="
             h-36
             w-full
-            flex flex-row justify-between items-stretch divide-x-[0.3px] divide-zinc-200
+            flex flex-row justify-between items-stretch divide-x-[0.3px] divide-zinc-600
             border
             border-[0.3px]
-            border-zinc-200
-            bg-zinc-900
+            border-zinc-600
+            bg-zinc-800
             rounded-md
-            hover:ring-4
-            hover:ring-zinc-700
-            hover:bg-gradient-to-r from-zinc-900 to-zinc-800
+            bg-gradient-to-l from-zinc-900 to-zinc-800 hover:from-zinc-800
             "
             onClick={ () => router.push("/vault/" + props.assetPoolAddress) }
             // transition ease-in-out duration-100 hover:scale-[1.01]
         >
 
             <VaultBlockView>
+                <div className="text-lg font-sans font-light text-zinc-400">
+                    { `${ symbol.value }`}
+                </div>                
                 <div className="text-2xl font-sans font-light">
-                    { props.name }
+                    { `${ name.value }`}
                 </div>
                 <div className="text-xl font-sans text-zinc-400 font-light">
-                    { props.strategyName }
+                    { "Euler" }
                 </div>
             </VaultBlockView>
             
@@ -102,7 +112,7 @@ export const VaultView = (props: PropsVaultView) => {
                 </VaultInfoView>
                 
                 <VaultValueView>
-                    { props.totalHoldings }
+                    { totalDeposits.value }
                 </VaultValueView>                
 
             </VaultBlockView>           
@@ -112,7 +122,7 @@ export const VaultView = (props: PropsVaultView) => {
                     Pool address
                 </VaultInfoView>
                 <VaultValueView>
-                    { props.assetPoolAddress }
+                    { EthAddress({ label: "", address: props.assetPoolAddress }) }
                 </VaultValueView>
                 <VaultInfoView>                    
                     Your positions

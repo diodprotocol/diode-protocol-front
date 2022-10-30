@@ -17,6 +17,7 @@ import { Page } from "../../components/common/page";
 import { DarkButton } from "../../components/common/button";
 import { VaultInformation } from "../../components/vault/vaultInformation";
 import { VaultAction } from "../../components/vault/vaultAction";
+import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 
 
 export const PageVault = () => {
@@ -25,8 +26,22 @@ export const PageVault = () => {
     const [ assetName, setAssetName ] = useState<string>("Asset Name");
     const [ strategyName, setStrategyName ] = useState<string>("Strategy Name");
 
+
+
     const router = useRouter();
-    const { contractAddress } = router.query;
+    const query = router.query;
+    
+    let contractAddress = "";
+    if ( query.contractAddress && router.isReady) {
+        if (Array.isArray(query.contractAddress)) {
+            contractAddress = query.contractAddress[0];
+        } else {
+            contractAddress = query.contractAddress
+        }
+    }
+
+    const name = useContractVaultRead(contractAddress, "name");
+    const symbol = useContractVaultRead(contractAddress, "symbol");
 
     return (
 
@@ -36,7 +51,7 @@ export const PageVault = () => {
                 
                 <div className="w-full flex flex-row justify-between items-center">
                     <div className="text-2xl font-sans font-light">
-                        { vaultName }
+                        { `${ name.value } - ${ symbol.value }`}
                     </div>
                     <DarkButton
                         onClick={() => router.push("/") }
@@ -45,21 +60,38 @@ export const PageVault = () => {
                     </DarkButton> 
                 </div>
 
-                <div className="
-                    h-full
-                    w-full
-                    flex flex-row justify-start items-start
-                    border
-                    border-[0.1px]
-                    border-zinc-200
-                    rounded-md
-                    divide-x-[0.2px] divide-zinc-200"
+                <div className="                    
+                    w-full                    
+                    flex flex-row items-stretch gap-4
+                    "
                 >
-                    <div className="w-1/3 h-full">
-                        <VaultInformation />                    
+                    <div className="
+                        w-2/5
+                        rounded-md
+                        border
+                        border-[0.2px]
+                        border-zinc-200
+                        "
+                    >
+                        {
+                            (contractAddress) ? 
+                            <VaultInformation contractAddress={ contractAddress } /> :
+                            null
+                        }
                     </div>
-                    <div className="w-2/3 h-full">
-                        <VaultAction/>
+                    <div className="
+                        w-3/5
+                        rounded-md       
+                        border
+                        border-[0.2px]
+                        border-zinc-200
+                        "
+                    >
+                        {
+                            (contractAddress) ? 
+                            <VaultAction contractAddress={ contractAddress} /> :
+                            null
+                        }                        
                     </div>
                 </div>
                 
@@ -67,7 +99,6 @@ export const PageVault = () => {
             
         </Page>
     );
-
 
 }
 

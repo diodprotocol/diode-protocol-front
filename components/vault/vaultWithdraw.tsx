@@ -40,15 +40,6 @@ export const VaultWithdraw = (props: { contractAddress: string }) => {
     // (currentAssetBalance.value && previewRedeem.value ) ?    
     //     helperFormatUnit( (BigNumber.from(currentAssetBalance.value).add(BigNumber.from(previewRedeem.value!))).toString(), unit) : "";
     
-    const changeRate = (item: number): string => {
-        return item.toString();
-        // if (!currentShareBalance.value) return "";
-        // const multiplier = BigNumber.from(item);
-        // const divider = BigNumber.from(100);
-        // const newUserAssetsInWei = BigNumber.from(currentShareBalance.value!).mul(multiplier).div(divider);
-        // return helperFormatUnit(newUserAssetsInWei.toString(), unit);
-    }
-
     // useEffect(() => {
     //     setUserShares(helperFormatUnit(userSharesInWei.toString(), unit));
     // }, [ unit ])  // eslint-disable-line react-hooks/exhaustive-deps
@@ -65,28 +56,10 @@ export const VaultWithdraw = (props: { contractAddress: string }) => {
     return (
         <TransactionPanel>
 
-            <TransactionInfo label="Current position" value={ displayCurrentShareBalance } />
+            <TransactionInfo label="Withdraw amount" value={ displayCurrentShareBalance } />
 
-            <div className="w-full rounded-lg bg-zinc-800 relative">
-                <div className="w-full flex justify-center items-center">
-                    <TransactionInput
-                        value={ userShares }
-                        setValue={ (event) => setUserShares( event.target.value ) }
-                    />
-                </div>
-                <button
-                    className="absolute w-20 text-center border text-xs font-light rounded-lg border-zinc-200 right-5 top-1/4"
-                    onClick={ () => setUserShares((Number(displayCurrentShareBalance)).toString()) }
-                >
-                    Max
-                </button>
-            </div>
-                        
-            <div className="w-full flex flex-row justify-between items-center text-normal text-left font-semibold gap-2">
-                <TransactionChooseUnit setUnit={ setUnit } currentUnit= { unit }/>
-                <TransactionAddress address={ props.contractAddress } label="Contest" />
-            </div>
-                        
+            <TransactionInfo label="Expected reward" value={ "" } />
+                                                
             <TransactionButton
                 // onClick={ (transaction.isSuccess) ? () => { writeContract.reset(); setUserShares(""); currentShareBalance.refetch() } : () => { writeContract.write?.() } }
                 // disabled={ !writeContract.write }

@@ -1,145 +1,84 @@
-import { Dispatch } from "react";
-import { ChooseButton } from "../common/chooseButton";
-import { ChooseButtonWrapper } from "../common/chooseButtonWrapper";
-import { StepperPannel } from "../stepper/stepperPannel";
-import { FactoryAction, FactoryButtonWrapper, FactoryInput, FactoryTip, FactoryButton } from "./factoryHelpers";
-
-
-const getTimestampInNdays = (nDays: number): number => {
-    var today = new Date();
-    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    return nextweek.getTime();
-}
-
-const formatTimeStart = (timeStart: string): string => {
-    if (timeStart === "") return "";
-    if (timeStart === "0") return "";
-    let date = new Date(timeStart);
-    return date.toISOString();
-}
-
-const timeStartChoices = [
-    {
-        display: "tomorrow",
-        value: getTimestampInNdays(1)
-    },
-    {
-        display: "next week",
-        value: getTimestampInNdays(7)
-    },
-    {
-        display: "next month",
-        value: getTimestampInNdays(30)
-    }
-];
-
-const durationChoices = [
-    {
-        display: "1 month",
-        value: 3600*24*30
-    },
-    {
-        display: "3 months",
-        value: 3600*24*30*3
-    },
-    {
-        display: "6 months",
-        value: 3600*24*30*6
-    },
-    {
-        display: "1 year",
-        value: 3600*24*30*12
-    },
-];
+import { Dispatch, useEffect, useState } from "react";
+import { FactoryAction } from "./factoryHelpers";
+import DatePicker from "react-datepicker";
 
 
 interface PropsFactoryChoosePeriod {
-    timeStart: string;
-    setTimeStart: Dispatch<string>;
-    duration: string;
-    setDuration: Dispatch<string>; 
-    onClickBack: () => void;
-    onClickNext: () => void;
+    timeStart?: string;
+    setTimeStart?: Dispatch<string>;
+    duration?: string;
+    setDuration?: Dispatch<string>; 
 }
 
 
 export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
 
-    // const supportedVestingPeriod = useFactoryReadSupportedVestingPeriods(props.vestingPeriod);
+    const [startDate, setStartDate] = useState(new Date());
+    const [finalDate, setFinalDate] = useState(new Date());
 
-    // useEffect(() => {
-    //     supportedVestingPeriod.refetch()
-    // }, [ props.vestingPeriod ]); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if (!props.setTimeStart) return;
+        if (!startDate) return;
+        props.setTimeStart(startDate.getTime().toString())
+    })
+
+    useEffect(() => {
+        if (!props.setDuration) return;
+        if (!finalDate) return;
+        const duration = finalDate.getTime() - startDate.getTime();
+        if (duration < 0) return;
+        props.setDuration(duration.toString());
+    })
 
     return (
-        <StepperPannel>
+        <div className="w-full flex flex-col gap-2">
 
             <FactoryAction>
-                Choose the start period
+                When the contract should start
             </FactoryAction>
 
-            <FactoryInput
-                title="Choose start period"
-                placeholder="Start timestamp"
-                value={ props.timeStart }
-                setValue={ props.setTimeStart }
-                unit=""
-            />
-
-            <ChooseButtonWrapper>
-                { 
-                    timeStartChoices.map((choice, index) => {
-                        return (
-                            <ChooseButton 
-                                key={ index } 
-                                onClick={ () => props.setTimeStart(choice.value.toString()) } 
-                            >
-                                { choice.display }
-                            </ChooseButton>
-                        )})
-                }
-            </ChooseButtonWrapper>            
-
-            <FactoryAction>
-                Choose the contract duration
-            </FactoryAction>
-
-            <FactoryInput
-                title="Choose duration"
-                placeholder="Duration"
-                value={ props.duration }
-                setValue={ props.setDuration }
-                unit="seconds"
-            />
-
-            <ChooseButtonWrapper>
-                { 
-                    durationChoices.map((choice, index) => {
-                        return (
-                            <ChooseButton 
-                                key={ index } 
-                                onClick={ () => props.setDuration(choice.value.toString()) } 
-                            >
-                                { choice.display }
-                            </ChooseButton>
-                        )})
-                }
-            </ChooseButtonWrapper>
-
-            <FactoryButtonWrapper>
-                <FactoryButton 
-                    onClick={ props.onClickBack }
-                >
-                    Back
-                </FactoryButton>
-                <FactoryButton 
-                    onClick={ props.onClickNext } 
-                    // disabled={ !( supportedVestingPeriod.value === "true" && Number(props.vestingPeriod) > 0 ) }
-                >
-                    Next
-                </FactoryButton>
-            </FactoryButtonWrapper>
+            <div className="w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
                 
-        </StepperPannel>
+                <div className="w-full flex">
+                    <FactoryAction>
+                        Start date                        
+                    </FactoryAction>
+                </div>
+
+                <div className="w-full flex">
+                    <DatePicker
+                        selected={ startDate } 
+                        onChange={ (date: Date) => setStartDate(date) } 
+                        customInput={<input className="w-full bg-zinc-900 text-sm font-light font-sans text-right outline-none"/>}
+                    />
+                </div>
+
+            </div>
+
+            <FactoryAction>
+                When the contract should end
+            </FactoryAction>
+
+            <div className="w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
+
+                <div className="w-full">
+                    <FactoryAction>
+                        End date
+                    </FactoryAction>
+                </div>
+
+                <div className="w-full">
+                    <DatePicker 
+                        selected={ finalDate } 
+                        onChange={ (date: Date) => setFinalDate(date) } 
+                        customInput={<input className="w-full bg-zinc-900 text-sm font-light font-sans text-right outline-none"/>}
+                    />
+                </div> 
+
+            </div>
+
+
+        </div>
+
     );
 }
