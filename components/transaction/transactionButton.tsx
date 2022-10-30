@@ -26,7 +26,7 @@ export const TransactionButton = (props: PropsTransactionButton) => {
                 text-left                 
                 font-light
                 border
-                border-zinc-200
+                border-zinc-600
                 border-[0.2px]
                 rounded-md
                 ${ (props.bgSecondary) ? "bg-violet-600" : "bg-zinc-900" } hover:bg-violet-600

@@ -87,17 +87,19 @@ export const VaultView = (props: { contractAddress: string }) => {
 
     let displayTotalDepositLong: string = "";
     if ( totalDepositLong.value ) {
-        displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
+        // displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
+        displayTotalDepositLong = `${ "0.02" } Ξ`;
     }
 
     let displayTotalDepositShort: string = "";
     if ( totalDepositShort.value ) {
-        displayTotalDepositShort = `${ totalDepositShort.value } Ξ`;
+        //displayTotalDepositShort = `${ ethers.utils.parseUnits(totalDepositShort.value, "wei").toString() } Ξ`;
+        displayTotalDepositShort = `${ "0.01" } Ξ`;
     }
 
     let displayStrikePrice: string = ""
     if ( strikePrice.value ) {
-        displayStrikePrice = `${ ethers.utils.formatUnits(strikePrice.value, "gwei") } $`;
+        displayStrikePrice = `${ ethers.utils.formatUnits(strikePrice.value, "gwei") } $`;        
     }
 
     let displayDeltaPrice: string = ""

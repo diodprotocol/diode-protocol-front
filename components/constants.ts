@@ -3,8 +3,13 @@ import { Asset } from './interface/asset';
 
 export const supportedAssets: Array<Asset> = [
     {
+        name: "WETH",
+        address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+        // address: "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
+    },
+    {
         name: "stEth",
-        address: "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F",
+        address: "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F"
         // address: "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
     }
 ]

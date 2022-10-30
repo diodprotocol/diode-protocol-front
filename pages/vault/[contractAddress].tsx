@@ -70,7 +70,7 @@ export const PageVault = () => {
                         rounded-md
                         border
                         border-[0.2px]
-                        border-zinc-200
+                        border-zinc-600
                         "
                     >
                         {
@@ -84,7 +84,7 @@ export const PageVault = () => {
                         rounded-md       
                         border
                         border-[0.2px]
-                        border-zinc-200
+                        border-zinc-600
                         "
                     >
                         {

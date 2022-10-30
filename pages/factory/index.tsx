@@ -38,7 +38,7 @@ const PageFactory = () => {
         timeStart,
         helperParseUnit(deltaPrice, "Gwei"),
         priceFeed,
-        "0",
+        helperParseUnit("0.1", "Eth").toString(),
         name,
         symbol        
     );
@@ -77,7 +77,7 @@ const PageFactory = () => {
                             rounded-md
                             border
                             border-[0.2px]
-                            border-zinc-200
+                            border-zinc-600
                             "
                         >
                             <FactoryChooseNameAndSymbol
@@ -96,7 +96,7 @@ const PageFactory = () => {
                             rounded-md       
                             border
                             border-[0.2px]
-                            border-zinc-200
+                            border-zinc-600
                             bg-zinc-800
                             "
                         >
@@ -129,7 +129,7 @@ const PageFactory = () => {
                                 rounded-md
                                 border
                                 border-[0.2px]
-                                border-zinc-200
+                                border-zinc-600
                                 "
                             >
                                 <FactoryChooseStrikePrice
@@ -147,7 +147,7 @@ const PageFactory = () => {
                             rounded-md
                             border
                             border-[0.2px]
-                            border-zinc-200
+                            border-zinc-600
                             "
                         >
                             <FactoryChoosePeriod

@@ -5,7 +5,7 @@
 @layer base {
     
   h1, h2, h3, h4, h5, h6, p, div, a {
-      @apply font-mono text-zinc-200
+      @apply font-sans text-zinc-200 font-light
   }
 
   .react-datepicker__input-container input p div a {

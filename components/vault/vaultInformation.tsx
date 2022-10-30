@@ -42,7 +42,7 @@ export const VaultInformationItemWrapper = (props: { children: ReactNode}) => {
             w-full
             flex flex-row justify-start items-center        
             divide-x-[0.1px]
-            divide-zinc-200
+            divide-zinc-600
             "
         >
             { props.children }
@@ -63,7 +63,10 @@ export const VaultInformation = (props: { contractAddress: string }) => {
     const totalDepositShort = useContractVaultRead(props.contractAddress, "totalDepositsSHORT");
     const alphaLongs = useContractVaultRead(props.contractAddress, "alphaLongs");
     const alphaShorts = useContractVaultRead(props.contractAddress, "alphaShorts");
-         
+    const apyLong = useContractVaultRead(props.contractAddress, "currentAPY_longs");
+    const apyShort = useContractVaultRead(props.contractAddress, "currentAPY_shorts");
+        
+
     let start: string = "";
     if ( startTime.value ) {        
         start = new Date(Number(startTime.value)*1000).toDateString();
@@ -99,6 +102,16 @@ export const VaultInformation = (props: { contractAddress: string }) => {
         displayDeltaPrice = `${ ethers.utils.formatUnits(deltaPrice.value, "gwei") } $`;
     }
 
+    let displayAlphaLong: string = ""
+    if ( alphaLongs.value ) {
+        displayAlphaLong = `${ ethers.utils.formatUnits(alphaLongs.value, "gwei") } $`;
+    }
+
+    let displayAlphaShort: string = ""
+    if ( alphaShorts.value ) {
+        displayAlphaShort = `${ ethers.utils.formatUnits(alphaShorts.value, "gwei") } $`;
+    }    
+
     return (
         <div className="
             w-full
@@ -106,7 +119,7 @@ export const VaultInformation = (props: { contractAddress: string }) => {
             flex flex-col justify-start items-start
             overflow-hidden
             divide-y-[0.1px]
-            divide-zinc-200
+            divide-zinc-600
             "
         >
 
@@ -167,12 +180,12 @@ export const VaultInformation = (props: { contractAddress: string }) => {
 
             <VaultInformationItemWrapper>
                 <VaultInformationItem
-                    label="Alpha long"
-                    name={ alphaLongs.value! }
+                    label="APY long"
+                    name={ "8.4 %" }
                 />
                 <VaultInformationItem
-                    label="Alpha short"
-                    name={ alphaShorts.value! }
+                    label="APY short"
+                    name={ "15.2 %" }
                 />                         
             </VaultInformationItemWrapper>
 

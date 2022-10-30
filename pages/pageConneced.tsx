@@ -22,13 +22,13 @@ export const PageConnected = () => {
     const router = useRouter();
 
     // ToDo replace.
-    const factoryAddress: string = "0x46CCDA5F5302fEfb219B8f354253b9955b17cf69";
+    const factoryAddress: string = process.env.NEXT_PUBLIC_FACTORY_VAULT!;
     const pools = useContractFactoryRead(factoryAddress, "getAllDiodePools");
 
     let poolAddresses: Array<string> = [];
-    if (pools.value) {
-        // ToDo : change.
-        poolAddresses.push(pools.value!);
+    if (pools.value) {        
+        poolAddresses = pools.value.split(",");
+        poolAddresses = [poolAddresses[1]];
     }
     
     return (

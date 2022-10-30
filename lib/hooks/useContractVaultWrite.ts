@@ -3,7 +3,7 @@ import { useContractVaultAbi } from "./useContractVaultAbi";
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 
 
-const useContractVaultWrite = (contractAddress: string, functionName: string, args?: Array<string>|undefined) => {
+const useContractVaultWrite = (contractAddress: string, functionName: string, args?: Array<string|boolean>|undefined) => {
     const { contractAbi } = useContractVaultAbi();
     const { config } = usePrepareContractWrite({
         addressOrName: contractAddress,
@@ -21,5 +21,5 @@ const useContractVaultWrite = (contractAddress: string, functionName: string, ar
 }
 
 export const useContractVaultWriteDeposit = (contractAddress: string, amount: BigNumber|undefined, longShort: boolean) => {
-    return useContractVaultWrite(contractAddress, "depositFunds", [ (amount) ? amount.toString() : "", longShort.toString() ]);
+    return useContractVaultWrite(contractAddress, "depositFunds", [ (amount) ? amount.toString() : "", longShort ]);
 }

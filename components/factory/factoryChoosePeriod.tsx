@@ -18,15 +18,16 @@ export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
     useEffect(() => {
         if (!props.setTimeStart) return;
         if (!startDate) return;
-        props.setTimeStart(startDate.getTime().toString())
+        let startTimestamp = startDate.getTime()/1000;        
+        props.setTimeStart(startTimestamp.toFixed(0))
     })
 
     useEffect(() => {
         if (!props.setDuration) return;
         if (!finalDate) return;
-        const duration = finalDate.getTime() - startDate.getTime();
-        if (duration < 0) return;
-        props.setDuration(duration.toString());
+        let duration = (finalDate.getTime() - startDate.getTime())/1000;
+        if (duration < 0) return;        
+        props.setDuration(duration.toFixed(0));
     })
 
     return (
