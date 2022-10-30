@@ -12,10 +12,20 @@ export const Footer = () =>  {
                 Copyright © 2022 Diode Protocol
             </div>
 
-            <div className="flex flex-row items-center justify-between gap-8">                    
-                <PublicIconForGithub />
-                <PublicIconForTwitter />
+            <div className="flex flex-row items-center justify-between gap-12">                    
+                <a 
+                    className="font-sans font-light text-xs zinc-400"
+                    href="https://github.com/diodprotocol/diode-protocol-front/blob/main/public/whitepaper.pdf" 
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
+                    Technical paper                
+                </a>
+                <div className="flex flex-row items-center justify-between gap-8">                    
+                    <PublicIconForGithub />                
+                </div>
             </div>
+
 
         </div>
     );
