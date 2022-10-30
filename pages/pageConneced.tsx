@@ -3,6 +3,7 @@ import { Page } from "../components/common/page";
 import { DarkButton } from "../components/common/button";
 import { PropsVaultView, VaultView } from "../components/vault/vaultView";
 import { useRouter } from "next/router";
+import { useContractFactoryRead } from "../lib/hooks/useContractFactoryRead";
 
 
 const vault: PropsVaultView = {
@@ -19,6 +20,17 @@ const vault: PropsVaultView = {
 
 export const PageConnected = () => {    
     const router = useRouter();
+
+    // ToDo replace.
+    const factoryAddress: string = "0x46CCDA5F5302fEfb219B8f354253b9955b17cf69";
+    const pools = useContractFactoryRead(factoryAddress, "getAllDiodePools");
+
+    let poolAddresses: Array<string> = [];
+    if (pools.value) {
+        // ToDo : change.
+        poolAddresses.push(pools.value!);
+    }
+    
     return (
         <Fragment>
             
@@ -37,7 +49,9 @@ export const PageConnected = () => {
                     </div>  
 
                     <div className="w-full flex flex-col justify-start items-start gap-8">
-                        <VaultView { ...vault} />
+                        {                            
+                            poolAddresses.map((item, index) => <VaultView key={ index } contractAddress={ item }/>)
+                        }
                     </div>
 
                 </div>

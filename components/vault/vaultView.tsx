@@ -62,13 +62,13 @@ const VaultBlockView = (props: {children: ReactNode, reverse?: boolean}) => {
     }
 }
 
-export const VaultView = (props: PropsVaultView) => {
+export const VaultView = (props: { contractAddress: string }) => {
     
     const router = useRouter();
 
-    const name = useContractVaultRead(props.assetPoolAddress, "name");
-    const symbol = useContractVaultRead(props.assetPoolAddress, "symbol");
-    const totalDeposits = useContractVaultRead(props.assetPoolAddress, "totalDeposits");
+    const name = useContractVaultRead(props.contractAddress, "name");
+    const symbol = useContractVaultRead(props.contractAddress, "symbol");
+    const totalDeposits = useContractVaultRead(props.contractAddress, "totalDeposits");
 
     return (
         <div className="
@@ -82,7 +82,7 @@ export const VaultView = (props: PropsVaultView) => {
             rounded-md
             bg-gradient-to-l from-zinc-900 to-zinc-800 hover:from-zinc-800
             "
-            onClick={ () => router.push("/vault/" + props.assetPoolAddress) }
+            onClick={ () => router.push("/vault/" + props.contractAddress) }
             // transition ease-in-out duration-100 hover:scale-[1.01]
         >
 
@@ -104,7 +104,7 @@ export const VaultView = (props: PropsVaultView) => {
                 </VaultInfoView>
                 
                 <VaultValueView>
-                    { props.apy }
+                    8.4 %
                 </VaultValueView>
                 
                 <VaultInfoView>
@@ -122,7 +122,7 @@ export const VaultView = (props: PropsVaultView) => {
                     Pool address
                 </VaultInfoView>
                 <VaultValueView>
-                    { EthAddress({ label: "", address: props.assetPoolAddress }) }
+                    { EthAddress({ label: "", address: props.contractAddress }) }
                 </VaultValueView>
                 <VaultInfoView>                    
                     Your positions
