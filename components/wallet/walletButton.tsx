@@ -70,17 +70,17 @@ export const WalletButton = () => {
                               )}
                         </div>
                       )}
-                      <div className="hidden md:flex">
+                      <div className="hidden md:flex font-sans font-light text-sm">
                         { chain.name }
                       </div>
                     </Button>
                     
                     <Button onClick={ openAccountModal }>
-                      <div className="flex flex-row items-center justify-start gap-2">
-                        <div className="hidden md:flex">
+                      <div className="flex flex-row items-center justify-start gap-4">
+                        <div className="hidden md:flex font-sans font-light text-xs">
                           { account.displayBalance ? `${ account.displayBalance }` : ''}
                         </div>
-                        <div className="bg-zinc-700 rounded-lg px-2">
+                        <div className="bg-zinc-700 rounded-lg px-2 font-sans font-light text-sm">
                           { account.displayName }
                         </div>
                       </div>

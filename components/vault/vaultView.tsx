@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { ethers } from "ethers";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { Button, DarkButton } from "../common/button";
 import { EthAddress } from "../common/ethAddress";
-
 
 export interface PropsVaultView {
     name: string;
@@ -68,7 +68,42 @@ export const VaultView = (props: { contractAddress: string }) => {
 
     const name = useContractVaultRead(props.contractAddress, "name");
     const symbol = useContractVaultRead(props.contractAddress, "symbol");
-    const totalDeposits = useContractVaultRead(props.contractAddress, "totalDeposits");
+    const startTime = useContractVaultRead(props.contractAddress, "startTime");
+    const duration = useContractVaultRead(props.contractAddress, "duration");
+    const totalDepositLong = useContractVaultRead(props.contractAddress, "totalDepositsLONG");
+    const totalDepositShort = useContractVaultRead(props.contractAddress, "totalDepositsSHORT");
+    const strikePrice = useContractVaultRead(props.contractAddress, "strikePrice");
+    const deltaPrice = useContractVaultRead(props.contractAddress, "deltaPrice");
+
+    let date;
+    if ( startTime.value ) {        
+        date = new Date(Number(startTime.value)*1000).toDateString();
+    } 
+
+    let final;
+    if ( startTime.value && duration.value ) {
+        final = new Date((Number(startTime.value) + Number(duration.value))*1000).toDateString();
+    }
+
+    let displayTotalDepositLong: string = "";
+    if ( totalDepositLong.value ) {
+        displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
+    }
+
+    let displayTotalDepositShort: string = "";
+    if ( totalDepositShort.value ) {
+        displayTotalDepositShort = `${ totalDepositShort.value } Ξ`;
+    }
+
+    let displayStrikePrice: string = ""
+    if ( strikePrice.value ) {
+        displayStrikePrice = `${ ethers.utils.formatUnits(strikePrice.value, "gwei") } $`;
+    }
+
+    let displayDeltaPrice: string = ""
+    if ( deltaPrice.value ) {
+        displayDeltaPrice = `${ ethers.utils.formatUnits(deltaPrice.value, "gwei") } $`;
+    }
 
     return (
         <div className="
@@ -82,66 +117,114 @@ export const VaultView = (props: { contractAddress: string }) => {
             rounded-md
             bg-gradient-to-l from-zinc-900 to-zinc-800 hover:from-zinc-800
             "
-            onClick={ () => router.push("/vault/" + props.contractAddress) }
-            // transition ease-in-out duration-100 hover:scale-[1.01]
+            onClick={ () => console.log("ToDo") }            
         >
 
             <VaultBlockView>
+                <div className="flex flex-row justify-between items-center gap-4">
+                    <div className="text-2xl font-sans font-light">
+                        { `${ name.value }`}
+                    </div>            
+                </div>
                 <div className="text-lg font-sans font-light text-zinc-400">
                     { `${ symbol.value }`}
-                </div>                
-                <div className="text-2xl font-sans font-light">
-                    { `${ name.value }`}
-                </div>
-                <div className="text-xl font-sans text-zinc-400 font-light">
-                    { "Euler" }
-                </div>
-            </VaultBlockView>
-            
-            <VaultBlockView>
-                <VaultInfoView>
-                    APY
-                </VaultInfoView>
-                
-                <VaultValueView>
-                    8.4 %
-                </VaultValueView>
-                
-                <VaultInfoView>
-                    Total holdings
-                </VaultInfoView>
-                
-                <VaultValueView>
-                    { totalDeposits.value }
-                </VaultValueView>                
-
-            </VaultBlockView>           
-
-            <VaultBlockView >
-                <VaultInfoView>
-                    Pool address
-                </VaultInfoView>
+                </div>    
                 <VaultValueView>
                     { EthAddress({ label: "", address: props.contractAddress }) }
                 </VaultValueView>
+            </VaultBlockView>
+            
+            <VaultBlockView >
                 <VaultInfoView>                    
-                    Your positions
+                    Start on
                 </VaultInfoView>   
-                <VaultValueView>
-                    { 1 }
+                <VaultValueView>                
+                    { `${ date }` }                                    
+                </VaultValueView>
+                <VaultInfoView>                    
+                    Ends on
+                </VaultInfoView>   
+                <VaultValueView>                
+                    { `${ final }` }                                    
                 </VaultValueView>
             </VaultBlockView>
+
+            <VaultBlockView>
+
+                <div className="px-2 flex flex-row justify-start items-start gap-4">
+                    <div className="flex flex-col justify-start items-start">
+                        <VaultInfoView>
+                            APY Long
+                        </VaultInfoView>
+                        
+                        <VaultValueView>
+                            8.4 %
+                        </VaultValueView>
+                    </div>
+                    <div className="pl-4 flex flex-col justify-start items-start">
+                        <VaultInfoView>
+                            APY Short
+                        </VaultInfoView>
+                        
+                        <VaultValueView>
+                            15.2 %
+                        </VaultValueView>
+                    </div>
+                </div>
+                
+                <div className="px-2 pt-4 w-full flex flex-row justify-start items-start">
+                    <div className="flex flex-col justify-start items-start">
+                        <VaultInfoView>
+                            TVL Long
+                        </VaultInfoView>                    
+                        <VaultValueView>
+                            { displayTotalDepositLong }
+                        </VaultValueView>
+                    </div>
+                    <div className="pl-8 flex flex-col justify-start items-start">
+                        <VaultInfoView>
+                            TVL Short
+                        </VaultInfoView>                        
+                        <VaultValueView>
+                            { displayTotalDepositShort }
+                        </VaultValueView>
+                    </div>
+                </div>
+                
+            </VaultBlockView>           
+
+            <VaultBlockView >
+                <VaultInfoView>                    
+                    Strike price
+                </VaultInfoView>   
+                <VaultValueView>                
+                    { displayStrikePrice }                                    
+                </VaultValueView>
+                <VaultInfoView>                    
+                    Delta price
+                </VaultInfoView>   
+                <VaultValueView>                
+                    { displayDeltaPrice }                                    
+                </VaultValueView>
+            </VaultBlockView>            
             
 
             <VaultBlockView reverse={ true }>
 
-                <DarkButton onClick={ () => console.log("withdraw") }>
+                <VaultInfoView>                    
+                    Implemented strategy
+                </VaultInfoView>   
+                <VaultValueView>                
+                    Euler
+                </VaultValueView>
+
+                <DarkButton onClick={ () => router.push("/vault/" + props.contractAddress) }>
                     <div className="w-24 text-xs font-sans font-normal">
                         Withdraw
                     </div>
                 </DarkButton>
 
-                <Button onClick={ () => console.log("click") }>
+                <Button onClick={ () => router.push("/vault/" + props.contractAddress) }>
                     <div className="w-24 text-xs font-sans font-normal">
                         Deposit
                     </div>

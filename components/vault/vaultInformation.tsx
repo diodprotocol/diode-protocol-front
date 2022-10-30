@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { EthAddress } from "../common/ethAddress";
+import { ethers } from "ethers";
 
 
 export const VaultInformationItem = (props: {label: string, name: string}) => {
@@ -63,6 +64,41 @@ export const VaultInformation = (props: { contractAddress: string }) => {
     const alphaLongs = useContractVaultRead(props.contractAddress, "alphaLongs");
     const alphaShorts = useContractVaultRead(props.contractAddress, "alphaShorts");
          
+    let start: string = "";
+    if ( startTime.value ) {        
+        start = new Date(Number(startTime.value)*1000).toDateString();
+    } 
+
+    let final: string = "";
+    if ( finalTime.value ) {
+        final = new Date(Number(finalTime.value)*1000).toDateString();
+    }
+
+    let displayTotalDepositLong: string = "";
+    if ( totalDepositLong.value ) {
+        displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
+    }
+
+    let displayTotalDepositShort: string = "";
+    if ( totalDepositShort.value ) {
+        displayTotalDepositShort = `${ totalDepositShort.value } Ξ`;
+    }
+
+    let displayTotalValueLocked: string = "";
+    if ( totalDeposit.value ) {
+        displayTotalValueLocked = `${ totalDeposit.value } Ξ`;
+    }    
+
+    let displayStrikePrice: string = ""
+    if ( strikePrice.value ) {
+        displayStrikePrice = `${ ethers.utils.formatUnits(strikePrice.value, "gwei") } $`;
+    }
+
+    let displayDeltaPrice: string = ""
+    if ( deltaPrice.value ) {
+        displayDeltaPrice = `${ ethers.utils.formatUnits(deltaPrice.value, "gwei") } $`;
+    }
+
     return (
         <div className="
             w-full
@@ -92,40 +128,40 @@ export const VaultInformation = (props: { contractAddress: string }) => {
                 />
                 <VaultInformationItem
                     label="Total value locked"
-                    name={ totalDeposit.value! }
+                    name={ displayTotalValueLocked }
                 />
             </VaultInformationItemWrapper>
 
             <VaultInformationItemWrapper>
                 <VaultInformationItem
                     label="Contract starts on"
-                    name={ startTime.value! }
+                    name={ start }
                 />
                 <VaultInformationItem
                     label="Contract ends on"
-                    name={ finalTime.value! }
+                    name={ final }
                 />      
             </VaultInformationItemWrapper>
             
             <VaultInformationItemWrapper>
                 <VaultInformationItem
                     label="Strike price"
-                    name={ strikePrice.value! }
+                    name={ displayStrikePrice }
                 />
                 <VaultInformationItem
                     label="Delta price"
-                    name={ deltaPrice.value! }
+                    name={ displayDeltaPrice }
                 />
             </VaultInformationItemWrapper>
 
             <VaultInformationItemWrapper>
                 <VaultInformationItem
                     label="Total Deposit Long"
-                    name={ totalDepositLong.value! }
+                    name={ displayTotalDepositLong }
                 />
                 <VaultInformationItem
                     label="Total Deposit Short"
-                    name={ totalDepositShort.value! }
+                    name={ displayTotalDepositShort }
                 />
             </VaultInformationItemWrapper>
 
