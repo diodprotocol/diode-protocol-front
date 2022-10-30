@@ -10,7 +10,6 @@ interface PropsFactoryChoosePeriod {
     setDuration?: Dispatch<string>; 
 }
 
-
 export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
 
     const [startDate, setStartDate] = useState(new Date());
@@ -31,13 +30,13 @@ export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
     })
 
     return (
-        <div className="w-full flex flex-col gap-2">
+        <div className="pt-1 w-full flex flex-col gap-2">
 
             <FactoryAction>
                 When the contract should start
             </FactoryAction>
 
-            <div className="w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
+            <div className="h-11 w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
                 
                 <div className="w-full flex">
                     <FactoryAction>
@@ -59,7 +58,7 @@ export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
                 When the contract should end
             </FactoryAction>
 
-            <div className="w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
+            <div className="h-11 w-full flex flex-row justify-between items-center gap-2 rounded-md bg-zinc-900 px-2 py-1">
 
                 <div className="w-full">
                     <FactoryAction>
@@ -69,8 +68,8 @@ export const FactoryChoosePeriod = (props: PropsFactoryChoosePeriod) => {
 
                 <div className="w-full">
                     <DatePicker 
-                        selected={ finalDate } 
-                        onChange={ (date: Date) => setFinalDate(date) } 
+                        selected={ finalDate }
+                        onChange={ (date: Date) => setFinalDate(date) }
                         customInput={<input className="w-full bg-zinc-900 text-sm font-light font-sans text-right outline-none"/>}
                     />
                 </div> 
