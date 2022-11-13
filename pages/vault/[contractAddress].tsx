@@ -56,7 +56,7 @@ export const PageVault = () => {
                     <DarkButton
                         onClick={() => router.push("/") }
                     >                        
-                        Back to contests
+                        Back to vaults
                     </DarkButton> 
                 </div>
 

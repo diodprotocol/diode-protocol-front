@@ -28,7 +28,7 @@ export const PageConnected = () => {
     let poolAddresses: Array<string> = [];
     if (pools.value) {        
         poolAddresses = pools.value.split(",");
-        poolAddresses = [poolAddresses[1]];
+        // poolAddresses = poolAddresses.splice(0, 1);
     }
     
     return (

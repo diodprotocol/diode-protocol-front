@@ -7,37 +7,37 @@ export const DiodIcon = () => {
                         d="M 10,20 L 20,20" 
                         id="path7119" 
                         stroke="currentColor"
-                        stroke-width="1"
+                        strokeWidth="1"
                     />
                     <path 
                         d="M 20,8 L 20,32" 
                         id="path7994"         
                         stroke="currentColor"
-                        stroke-width="1"
+                        strokeWidth="1"
                     />
                     <path             
                         id="path7996" 
                         d="M 20,8 L 40,20" 
                         stroke="currentColor"
-                        stroke-width="1"
+                        strokeWidth="1"
                     />
                     <path 
                         d="M 20,32 L 40,20" 
                         id="path7998" 
                         stroke="currentColor"
-                        stroke-width="1"
+                        strokeWidth="1"
                     />
                     <path             
                         d="M 40,8 L 40,32" 
                         id="path8000" 
                         stroke="currentColor"
-                        stroke-width="1"
+                        strokeWidth="1"
                     />
                     <path 
                         d="M 40,20 L 50,20" 
                         id="path8002" 
                         stroke="currentColor"
-                        stroke-width="1"        
+                        strokeWidth="1"        
                     />
                 </g>
             </g>

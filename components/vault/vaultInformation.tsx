@@ -65,7 +65,6 @@ export const VaultInformation = (props: { contractAddress: string }) => {
     const alphaShorts = useContractVaultRead(props.contractAddress, "alphaShorts");
     const apyLong = useContractVaultRead(props.contractAddress, "currentAPY_longs");
     const apyShort = useContractVaultRead(props.contractAddress, "currentAPY_shorts");
-        
 
     let start: string = "";
     if ( startTime.value ) {        
@@ -79,17 +78,17 @@ export const VaultInformation = (props: { contractAddress: string }) => {
 
     let displayTotalDepositLong: string = "";
     if ( totalDepositLong.value ) {
-        displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
+        displayTotalDepositLong = `${ ethers.utils.formatUnits(totalDepositLong.value, "ether") } Ξ`;
     }
 
     let displayTotalDepositShort: string = "";
     if ( totalDepositShort.value ) {
-        displayTotalDepositShort = `${ totalDepositShort.value } Ξ`;
+        displayTotalDepositShort = `${ ethers.utils.formatUnits(totalDepositShort.value, "ether") } Ξ`;
     }
 
     let displayTotalValueLocked: string = "";
     if ( totalDeposit.value ) {
-        displayTotalValueLocked = `${ totalDeposit.value } Ξ`;
+        displayTotalValueLocked = `${ ethers.utils.formatUnits(totalDeposit.value, "ether") } Ξ`;
     }    
 
     let displayStrikePrice: string = ""
@@ -181,11 +180,11 @@ export const VaultInformation = (props: { contractAddress: string }) => {
             <VaultInformationItemWrapper>
                 <VaultInformationItem
                     label="APY long"
-                    name={ "8.4 %" }
+                    name={ apyLong.value ? apyLong.value.toString() : "ToDo" }
                 />
                 <VaultInformationItem
                     label="APY short"
-                    name={ "15.2 %" }
+                    name={ apyShort.value ? apyShort.value.toString() : "ToDo" }
                 />                         
             </VaultInformationItemWrapper>
 
