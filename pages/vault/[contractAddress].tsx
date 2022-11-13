@@ -1,18 +1,5 @@
-import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from 'next/router'
-
-// import { useParams, useNavigate } from "react-router-dom";
-// import { Page } from "../components/common/page";
-// import { ContestDepositAsset } from "../components/contest/contestDepositAsset";
-// import { ContestItemsWarpper } from "../components/contest/contestItemsWrapper";
-// import { ContestParameters } from "../components/contest/contestParameters";
-// import { ContestSubTitle, ContestTitle } from "../components/contest/contestTitle";
-// import { ContestRedeemShares } from "../components/contest/contestRedeemShares";
-// import { ContestUserConvertToAssets, ContestUserConvertToShares } from "../components/contest/contestUserConverters";
-// import { ContestUserPreviewDeposit, ContestUserPreviewWithdraw } from "../components/contest/contestUserPreviews";
-// import { useAccount } from "wagmi";
-
 import { Page } from "../../components/common/page";
 import { DarkButton } from "../../components/common/button";
 import { VaultInformation } from "../../components/vault/vaultInformation";
@@ -25,8 +12,6 @@ export const PageVault = () => {
     const [ vaultName, setVaultName ] = useState<string>("Vault Name");
     const [ assetName, setAssetName ] = useState<string>("Asset Name");
     const [ strategyName, setStrategyName ] = useState<string>("Strategy Name");
-
-
 
     const router = useRouter();
     const query = router.query;

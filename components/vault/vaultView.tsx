@@ -5,6 +5,7 @@ import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { Button, DarkButton } from "../common/button";
 import { EthAddress } from "../common/ethAddress";
 
+
 export interface PropsVaultView {
     name: string;
     assetName: string;
@@ -86,15 +87,13 @@ export const VaultView = (props: { contractAddress: string }) => {
     }
 
     let displayTotalDepositLong: string = "";
-    if ( totalDepositLong.value ) {
-        // displayTotalDepositLong = `${ totalDepositLong.value } Ξ`;
-        displayTotalDepositLong = `${ "0.02" } Ξ`;
+    if ( totalDepositLong.value ) {                
+        displayTotalDepositLong = `${ ethers.utils.formatUnits(totalDepositLong.value, "ether").toString() } Ξ`;
     }
 
     let displayTotalDepositShort: string = "";
     if ( totalDepositShort.value ) {
-        //displayTotalDepositShort = `${ ethers.utils.parseUnits(totalDepositShort.value, "wei").toString() } Ξ`;
-        displayTotalDepositShort = `${ "0.01" } Ξ`;
+        displayTotalDepositShort = `${ ethers.utils.formatUnits(totalDepositShort.value, "ether").toString() } Ξ`;
     }
 
     let displayStrikePrice: string = ""
@@ -160,7 +159,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            8.4 %
+                            { "ToDo" }
                         </VaultValueView>
                     </div>
                     <div className="pl-4 flex flex-col justify-start items-start">
@@ -169,7 +168,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            15.2 %
+                            { "ToDo" }
                         </VaultValueView>
                     </div>
                 </div>
