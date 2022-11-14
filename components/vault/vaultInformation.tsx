@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { EthAddress } from "../common/ethAddress";
 import { ethers } from "ethers";
+import { number } from "prop-types";
 
 
 export const VaultInformationItem = (props: {label: string, name: string}) => {
@@ -109,7 +110,17 @@ export const VaultInformation = (props: { contractAddress: string }) => {
     let displayAlphaShort: string = ""
     if ( alphaShorts.value ) {
         displayAlphaShort = `${ ethers.utils.formatUnits(alphaShorts.value, "gwei") } $`;
-    }    
+    }
+
+    const APY = 10;
+    let displayApyLong = "0.0"; 
+    let displayApyShort = "0.0";
+    if ( totalDepositShort.value && totalDepositLong.value ) {
+        const totalDepositShortFloat = Number(ethers.utils.formatUnits(totalDepositShort.value, "ether"));
+        const totalDepositLongFloat = Number(ethers.utils.formatUnits(totalDepositLong.value, "ether"));
+        displayApyLong = (APY * ( totalDepositShortFloat / totalDepositLongFloat )).toFixed(2).toString()
+        displayApyShort = (APY * ( totalDepositLongFloat / totalDepositShortFloat )).toFixed(2).toString()
+    }
 
     return (
         <div className="
@@ -180,11 +191,11 @@ export const VaultInformation = (props: { contractAddress: string }) => {
             <VaultInformationItemWrapper>
                 <VaultInformationItem
                     label="APY long"
-                    name={ apyLong.value ? apyLong.value.toString() : "ToDo" }
+                    name={ displayApyLong }
                 />
                 <VaultInformationItem
                     label="APY short"
-                    name={ apyShort.value ? apyShort.value.toString() : "ToDo" }
+                    name={ displayApyShort }
                 />                         
             </VaultInformationItemWrapper>
 

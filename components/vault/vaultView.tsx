@@ -108,6 +108,16 @@ export const VaultView = (props: { contractAddress: string }) => {
         displayDeltaPrice = `${ ethers.utils.formatUnits(deltaPrice.value, "gwei") } $`;
     }
 
+    const APY = 10;
+    let displayApyLong = "0.0"; 
+    let displayApyShort = "0.0";
+    if ( totalDepositShort.value && totalDepositLong.value ) {
+        const totalDepositShortFloat = Number(ethers.utils.formatUnits(totalDepositShort.value, "ether"));
+        const totalDepositLongFloat = Number(ethers.utils.formatUnits(totalDepositLong.value, "ether"));
+        displayApyLong = (APY * ( totalDepositShortFloat / totalDepositLongFloat )).toFixed(2).toString()
+        displayApyShort = (APY * ( totalDepositLongFloat / totalDepositShortFloat )).toFixed(2).toString()
+    } 
+
     return (
         <div className="
             h-36
@@ -161,7 +171,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            { apyLong.value ? apyLong.value.toString() : "" }
+                            { displayApyLong }
                         </VaultValueView>
                     </div>
                     <div className="pl-4 flex flex-col justify-start items-start">
@@ -170,7 +180,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            { apyShort.value ? apyShort.value.toString() : "" }
+                            { displayApyShort }
                         </VaultValueView>
                     </div>
                 </div>
