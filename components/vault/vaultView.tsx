@@ -75,6 +75,8 @@ export const VaultView = (props: { contractAddress: string }) => {
     const totalDepositShort = useContractVaultRead(props.contractAddress, "totalDepositsSHORT");
     const strikePrice = useContractVaultRead(props.contractAddress, "strikePrice");
     const deltaPrice = useContractVaultRead(props.contractAddress, "deltaPrice");
+    const apyLong = useContractVaultRead(props.contractAddress, "currentAPY_longs");
+    const apyShort = useContractVaultRead(props.contractAddress, "currentAPY_shorts");
 
     let date;
     if ( startTime.value ) {        
@@ -159,7 +161,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            { "ToDo" }
+                            { apyLong.value ? apyLong.value.toString() : "" }
                         </VaultValueView>
                     </div>
                     <div className="pl-4 flex flex-col justify-start items-start">
@@ -168,7 +170,7 @@ export const VaultView = (props: { contractAddress: string }) => {
                         </VaultInfoView>
                         
                         <VaultValueView>
-                            { "ToDo" }
+                            { apyShort.value ? apyShort.value.toString() : "" }
                         </VaultValueView>
                     </div>
                 </div>
