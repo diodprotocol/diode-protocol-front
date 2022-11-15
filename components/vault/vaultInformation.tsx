@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { EthAddress } from "../common/ethAddress";
 import { ethers } from "ethers";
-import { number } from "prop-types";
 
 
 export const VaultInformationItem = (props: {label: string, name: string}) => {
@@ -115,11 +114,12 @@ export const VaultInformation = (props: { contractAddress: string }) => {
     const APY = 10;
     let displayApyLong = "0.0"; 
     let displayApyShort = "0.0";
-    if ( totalDepositShort.value && totalDepositLong.value ) {
+    if ( totalDepositShort.value && totalDepositLong.value && totalDeposit.value ) {
+        const totalDepositFloat = Number(ethers.utils.formatUnits(totalDeposit.value, "ether"));
         const totalDepositShortFloat = Number(ethers.utils.formatUnits(totalDepositShort.value, "ether"));
         const totalDepositLongFloat = Number(ethers.utils.formatUnits(totalDepositLong.value, "ether"));
-        displayApyLong = (APY * ( totalDepositShortFloat / totalDepositLongFloat )).toFixed(2).toString()
-        displayApyShort = (APY * ( totalDepositLongFloat / totalDepositShortFloat )).toFixed(2).toString()
+        displayApyLong = (APY * ( totalDepositFloat / totalDepositLongFloat )).toFixed(2).toString()
+        displayApyShort = (APY * ( totalDepositFloat / totalDepositShortFloat )).toFixed(2).toString()
     }
 
     return (

@@ -71,12 +71,11 @@ export const VaultView = (props: { contractAddress: string }) => {
     const symbol = useContractVaultRead(props.contractAddress, "symbol");
     const startTime = useContractVaultRead(props.contractAddress, "startTime");
     const duration = useContractVaultRead(props.contractAddress, "duration");
+    const totalDeposit = useContractVaultRead(props.contractAddress, "totalDeposits");
     const totalDepositLong = useContractVaultRead(props.contractAddress, "totalDepositsLONG");
     const totalDepositShort = useContractVaultRead(props.contractAddress, "totalDepositsSHORT");
     const strikePrice = useContractVaultRead(props.contractAddress, "strikePrice");
     const deltaPrice = useContractVaultRead(props.contractAddress, "deltaPrice");
-    const apyLong = useContractVaultRead(props.contractAddress, "currentAPY_longs");
-    const apyShort = useContractVaultRead(props.contractAddress, "currentAPY_shorts");
 
     let date;
     if ( startTime.value ) {        
@@ -111,11 +110,12 @@ export const VaultView = (props: { contractAddress: string }) => {
     const APY = 10;
     let displayApyLong = "0.0"; 
     let displayApyShort = "0.0";
-    if ( totalDepositShort.value && totalDepositLong.value ) {
+    if ( totalDepositShort.value && totalDepositLong.value && totalDeposit.value ) {
+        const totalDepositFloat = Number(ethers.utils.formatUnits(totalDeposit.value, "ether"));
         const totalDepositShortFloat = Number(ethers.utils.formatUnits(totalDepositShort.value, "ether"));
         const totalDepositLongFloat = Number(ethers.utils.formatUnits(totalDepositLong.value, "ether"));
-        displayApyLong = (APY * ( totalDepositShortFloat / totalDepositLongFloat )).toFixed(2).toString()
-        displayApyShort = (APY * ( totalDepositLongFloat / totalDepositShortFloat )).toFixed(2).toString()
+        displayApyLong = (APY * ( totalDepositFloat / totalDepositLongFloat )).toFixed(2).toString()
+        displayApyShort = (APY * ( totalDepositFloat / totalDepositShortFloat )).toFixed(2).toString()
     } 
 
     return (
