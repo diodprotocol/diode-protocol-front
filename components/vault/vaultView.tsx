@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { Button, DarkButton } from "../common/button";
 import { EthAddress } from "../common/ethAddress";
+import { useContractErc20ReadSymbol } from "../../lib/hooks/useContractErc20Read";
 
 
 export interface PropsVaultView {
@@ -65,7 +66,9 @@ const VaultBlockView = (props: {children: ReactNode, reverse?: boolean}) => {
 
 export const VaultView = (props: { contractAddress: string }) => {
     
-    const router = useRouter();
+
+    const asset = useContractVaultRead(props.contractAddress, "suppliedAsset");
+    const assetSymbol = useContractErc20ReadSymbol(asset.value!);    const router = useRouter();
 
     const name = useContractVaultRead(props.contractAddress, "name");
     const symbol = useContractVaultRead(props.contractAddress, "symbol");
@@ -142,8 +145,11 @@ export const VaultView = (props: { contractAddress: string }) => {
                 <div className="text-lg font-sans font-light text-zinc-400">
                     { `${ symbol.value }`}
                 </div>    
-                <VaultValueView>
+                {/* <VaultValueView>
                     { EthAddress({ label: "", address: props.contractAddress }) }
+                </VaultValueView> */}
+                <VaultValueView>
+                    { assetSymbol.value }
                 </VaultValueView>
             </VaultBlockView>
             

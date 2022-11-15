@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useContractVaultRead } from "../../lib/hooks/useContractVaultRead";
 import { EthAddress } from "../common/ethAddress";
 import { ethers } from "ethers";
+import { useContractErc20ReadName, useContractErc20ReadSymbol } from "../../lib/hooks/useContractErc20Read";
 
 
 export const VaultInformationItem = (props: {label: string, name: string}) => {
@@ -53,6 +54,7 @@ export const VaultInformationItemWrapper = (props: { children: ReactNode}) => {
 export const VaultInformation = (props: { contractAddress: string }) => {
 
     const asset = useContractVaultRead(props.contractAddress, "suppliedAsset");
+    const assetSymbol = useContractErc20ReadSymbol(asset.value!);
     const strikePrice = useContractVaultRead(props.contractAddress, "strikePrice");
     const deltaPrice = useContractVaultRead(props.contractAddress, "deltaPrice");
     const finalTime = useContractVaultRead(props.contractAddress, "finalTime");
@@ -135,8 +137,8 @@ export const VaultInformation = (props: { contractAddress: string }) => {
 
             <VaultInformationItemWrapper>
                 <VaultInformationItem
-                    label="Asset address"
-                    name={ asset.value! }
+                    label="Asset "
+                    name={ assetSymbol.value! }
                 />
                 <VaultInformationItem
                     label="Price feed"
