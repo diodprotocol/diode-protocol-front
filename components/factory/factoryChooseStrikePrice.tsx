@@ -40,7 +40,8 @@ export const FactoryChooseStrikePrice = (props: PropsFactoryChooseStrikePrice) =
                 placeholder="Enter the pool fee here"
                 value={ props.fee }
                 setValue={ props.setFee }
-                unit=""
+                unit="%"
+                type="number"
             />
               
         </div>

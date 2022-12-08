@@ -85,6 +85,7 @@ export const FactoryInput = (props: PropsContestFactoryInput) => {
                 <div className="min-w-fit pl-2 top-1/4 right-5 font-light text-sm font-sans">
                     { props.title }
                 </div>
+                
                 <input 
                     className="w-full flex justify-center outline-none bg-transparent text-right text-sm font-light font-sans"
                     placeholder={ props.placeholder }

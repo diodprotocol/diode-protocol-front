@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useNetwork } from "wagmi";
@@ -45,7 +45,7 @@ const PageFactory = () => {
 
     const [ strikePrice, setStrikePrice ] = useState<string>("");
     const [ deltaPrice, setDeltaPrice ] = useState<string>("");
-    const [ fee, setFee ]= useState<string>("");
+    const [ fee, setFee ]= useState<string>("0");
 
     const [ maxCapLong, setMaxCapLong ] = useState("");
     const [ maxCapShort, setMaxCapShort ] = useState("");
@@ -55,7 +55,7 @@ const PageFactory = () => {
         [
             helperParseUnit(strikePrice, "Gwei"),
             helperParseUnit(deltaPrice, "Gwei"),
-            helperParseUnit(fee, "Gwei")
+            fee ? ethers.utils.parseUnits(Number(fee).toFixed(2), 2) : BigNumber.from(0),
         ],
         [
             BigNumber.from(timeStart),
