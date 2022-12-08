@@ -4,6 +4,7 @@ import { DarkButton } from "../components/common/button";
 import { PropsVaultView, VaultView } from "../components/vault/vaultView";
 import { useRouter } from "next/router";
 import { useContractFactoryRead } from "../lib/hooks/useContractFactoryRead";
+import { useNetwork } from "wagmi";
 
 
 const vault: PropsVaultView = {
@@ -20,9 +21,15 @@ const vault: PropsVaultView = {
 
 export const PageConnected = () => {    
     const router = useRouter();
+    const network = useNetwork();
+    
+    let factoryAddress: string;
+    if (network.chain?.name === "Polygon") {
+        factoryAddress = process.env.NEXT_PUBLIC_FACTORY_VAULT!;
+    } else {
+        factoryAddress = process.env.NEXT_PUBLIC_FACTORY_VAULT_POLYGON!;
+    }
 
-    // ToDo replace.
-    const factoryAddress: string = process.env.NEXT_PUBLIC_FACTORY_VAULT!;
     const pools = useContractFactoryRead(factoryAddress, "getAllDiodePools");
 
     let poolAddresses: Array<string> = [];

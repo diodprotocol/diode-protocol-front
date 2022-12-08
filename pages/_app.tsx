@@ -12,11 +12,11 @@ const { chains, provider } = configureChains(
   [
     // chain.mainnet,
     chain.goerli,
+    chain.polygon,
   ],
   [
-    // alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_API_KEY_FOR_MAINNET }),
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_GOERLI }),
-    // publicProvider()
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_FOR_POLYGON }),
   ]
 );
 
