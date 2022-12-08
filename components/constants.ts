@@ -5,9 +5,17 @@ export const supportedAssets: Array<Asset> = [
     {
         name: "WETH",
         address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
-        //address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-        // address: "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
     },
+    {
+        name: "WMATIC",
+        address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+    },
+    {
+        name: "stMATIC",
+        address: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+    },
+    //address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    // address: "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
     // {
     //     // name: "stEth",
     //     // address: "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F"
@@ -51,10 +59,23 @@ export const supportedCurvePools: Array<Asset> = [
     },
 ]
 
-
 export const supportedBeefyVaults: Array<Asset> = [
     {
-        name: "Moo Balancer Matic-stMatic V2",
-        address: "0xF79BF908d0e6d8E7054375CD80dD33424B1980bf"
+        name: "Moo Curve stMATIC-MATIC",
+        address: "0xE0570ddFca69E5E90d83Ea04bb33824D3BbE6a85"
+    }
+]
+
+export const supportedCurvePool: Array<Asset> = [
+    {
+        name: "curvePool",
+        address: "0xFb6FE7802bA9290ef8b00CA16Af4Bc26eb663a28",
+    }
+]
+
+export const supportedCurveLp: Array<Asset> = [
+    {
+        name: "curveLPToken",
+        address: "0xe7CEA2F6d7b120174BF3A9Bc98efaF1fF72C997d",
     }
 ]

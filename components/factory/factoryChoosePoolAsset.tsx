@@ -13,13 +13,16 @@ interface PropsFactoryChooseAssetPool {
 export const FactoryChooseAssetPool = (props: PropsFactoryChooseAssetPool) => {
     return (
         <div className="w-full">
+            
             <FactoryAction>
                 Choose asset pool
             </FactoryAction>
+
             <AddressListbox
                 listOfAddress={ supportedAssets }
                 setAssetAddress={ props.setAssetPool }
             />
+
         </div>
     );
 }

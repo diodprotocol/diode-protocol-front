@@ -32,7 +32,7 @@ export const FactoryChooseCapLongShort = (props: PropsFactoryChooseCapLongShort)
                 setValue={ props.setMaxCapShort }
                 unit=""
             />    
-              
+
         </div>
     );
 }

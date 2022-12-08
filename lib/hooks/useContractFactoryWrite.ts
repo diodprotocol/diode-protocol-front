@@ -3,7 +3,7 @@ import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from
 import { useContractFactoryAbi } from "./useContractFactoryAbi";
 
 
-const useContractFactorytWrite = (contractAddress: string, functionName: string, args?: Array<string>|undefined) => {
+const useContractFactorytWrite = (contractAddress: string, functionName: string, args?: Array<Array<BigNumber>|BigNumber|string|Array<string>>) => {
     const { contractAbi } = useContractFactoryAbi();
     const { config } = usePrepareContractWrite({
         addressOrName: contractAddress,
@@ -22,29 +22,31 @@ const useContractFactorytWrite = (contractAddress: string, functionName: string,
 
 export const useContractFactorytWriteCreatePool = (
         contractAddress: string,
-        strikePrice: BigNumber|undefined,
-        asset: string,
-        duration: string,
-        startTime: string,
-        deltaPrice: BigNumber|undefined,
-        chainlinkPriceFeed: string,
-        fees: string,
-        name: string,
-        symbol: string,
+        strikeDeltaFees?: [BigNumber, BigNumber, BigNumber],
+        durationAndStart?: [BigNumber, BigNumber],
+        capLongShort?: [BigNumber, BigNumber],
+        asset?: string,
+        chainlinkPriceFeed?: string,
+        curveAddresses?: [string, string],
+        beefyVault?: string,
+        name?: string,
+        symbol?: string,
     ) => {
+    const args = [
+        strikeDeltaFees!,
+        durationAndStart!,
+        capLongShort!,
+        asset!,
+        chainlinkPriceFeed!,
+        curveAddresses!,
+        beefyVault!,
+        name!, 
+        symbol!,
+    ]
+    console.log(args);
     return useContractFactorytWrite(
         contractAddress, 
         "deployDiodePool",
-        [
-            (strikePrice) ? strikePrice.toString() : "",
-            asset,
-            duration,
-            startTime,
-            (deltaPrice) ? deltaPrice.toString() : "",
-            chainlinkPriceFeed,
-            fees,
-            name, 
-            symbol,
-        ]
-        );
+        args,
+    );
 }

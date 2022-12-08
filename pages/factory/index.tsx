@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useNetwork } from "wagmi";
@@ -15,7 +16,8 @@ import { FactoryButton } from "../../components/factory/factoryHelpers";
 import { TransactionButton } from "../../components/transaction/transactionButton";
 import { useContractFactorytWriteCreatePool } from "../../lib/hooks/useContractFactoryWrite";
 import { helperFormatUnit, helperParseUnit } from "../../lib/utils/convertValueBasedOnUnit";
-
+import { FactoryChooseAddress } from "../../components/factory/factoryChooseAddress";
+import { supportedCurveLp, supportedCurvePool } from "../../components/constants";
 
 const PageFactory = () => {
 
@@ -34,11 +36,12 @@ const PageFactory = () => {
 
     const [ assetPool, setAssetPool ] = useState<string>("");
     const [ priceFeed, setPriceFeed ] = useState<string>("");
-    const [ strategy, setStrategy ] = useState<string>("");
+    const [ curvePool, setCurvePool ] = useState<string>("");
+    const [ curveLp, setCurveLp ] = useState<string>("");
     const [ beefyVault, setBeefyVault ] = useState("");
     
     const [ timeStart, setTimeStart ] = useState<string>("0");
-    const [ duration, setDuration ] = useState<string>("");
+    const [ duration, setDuration ] = useState<string>("0");
 
     const [ strikePrice, setStrikePrice ] = useState<string>("");
     const [ deltaPrice, setDeltaPrice ] = useState<string>("");
@@ -47,18 +50,30 @@ const PageFactory = () => {
     const [ maxCapLong, setMaxCapLong ] = useState("");
     const [ maxCapShort, setMaxCapShort ] = useState("");
     
-
     const { transaction, writeContract } = useContractFactorytWriteCreatePool(
         factoryAddress,
-        helperParseUnit(strikePrice, "Gwei"),
+        [
+            helperParseUnit(strikePrice, "Gwei"),
+            helperParseUnit(deltaPrice, "Gwei"),
+            helperParseUnit(fee, "Gwei")
+        ],
+        [
+            BigNumber.from(timeStart),
+            BigNumber.from(duration)
+        ],
+        [
+            helperParseUnit(maxCapLong, "Gwei"),
+            helperParseUnit(maxCapShort, "Gwei")
+        ],
         assetPool,
-        duration,
-        timeStart,
-        helperParseUnit(deltaPrice, "Gwei"),
         priceFeed,
-        helperParseUnit("0.1", "Eth").toString(),
+        [
+            curvePool,
+            curveLp,
+        ],
+        beefyVault,
         name,
-        symbol        
+        symbol, 
     );
 
     return (
@@ -121,11 +136,23 @@ const PageFactory = () => {
                                 assetPool={ assetPool }
                                 setAssetPool={ setAssetPool }
                             />
-
+                    
                             <FactoryChoosePriceFeed 
                                 priceFeed={ priceFeed }
                                 setPriceFeed={ setPriceFeed }
                             />
+
+                            <FactoryChooseAddress
+                                title="Choose the curve pool"
+                                choices={ supportedCurvePool }
+                                setAddress={ setCurvePool }
+                            />
+
+                            <FactoryChooseAddress
+                                title="Choose the curve LP Token"
+                                choices={ supportedCurveLp }
+                                setAddress={ setCurveLp }
+                            />                            
 
                             <FactoryChooseBeefyVault
                                 setAddress={ setBeefyVault }
@@ -193,7 +220,8 @@ const PageFactory = () => {
                         </div>
 
                         <TransactionButton
-                            onClick={ (transaction.isSuccess) ? () => { writeContract.reset() } : () => { writeContract.write?.() } }
+                            //onClick={ (transaction.isSuccess) ? () => { writeContract.reset() } : () => { writeContract.write?.() } }
+                            onClick={ (transaction.isSuccess) ? () => { writeContract.reset() } : () => { alert(writeContract.data) } }
                             disabled={ !writeContract.write }
                             isError={ writeContract.isError || transaction.isError }
                             isWaiting={ ( writeContract.isLoading || writeContract.isSuccess ) && transaction.isLoading }
