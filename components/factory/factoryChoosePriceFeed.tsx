@@ -14,13 +14,16 @@ interface PropsFactoryChoosePriceFeed {
 export const FactoryChoosePriceFeed = (props: PropsFactoryChoosePriceFeed) => {        
     return (
         <div className="w-full">
+            
             <FactoryAction>
                 Choose the asset price feed from Chainlink
             </FactoryAction>
+
             <AddressListbox
                 listOfAddress={ supportedPriceFeed }
                 setAssetAddress={ props.setPriceFeed }
             />
+
         </div>                        
     );
 }

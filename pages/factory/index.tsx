@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNetwork } from "wagmi";
 import { DarkButton } from "../../components/common/button";
 import { Page } from "../../components/common/page";
+import { FactoryChooseBeefyVault } from "../../components/factory/factoryChooseBeefyVault";
 import { FactoryChooseCapLongShort } from "../../components/factory/factoryChooseCapLongShort";
 import { FactoryChooseNameAndSymbol } from "../../components/factory/factoryChooseNameAndSymbol";
 import { FactoryChoosePeriod } from "../../components/factory/factoryChoosePeriod";
@@ -34,6 +35,7 @@ const PageFactory = () => {
     const [ assetPool, setAssetPool ] = useState<string>("");
     const [ priceFeed, setPriceFeed ] = useState<string>("");
     const [ strategy, setStrategy ] = useState<string>("");
+    const [ beefyVault, setBeefyVault ] = useState("");
     
     const [ timeStart, setTimeStart ] = useState<string>("0");
     const [ duration, setDuration ] = useState<string>("");
@@ -44,6 +46,7 @@ const PageFactory = () => {
 
     const [ maxCapLong, setMaxCapLong ] = useState("");
     const [ maxCapShort, setMaxCapShort ] = useState("");
+    
 
     const { transaction, writeContract } = useContractFactorytWriteCreatePool(
         factoryAddress,
@@ -74,7 +77,6 @@ const PageFactory = () => {
                     </DarkButton> 
                 </div>
 
-                
                     <div className="
                         pt-8
                         w-full
@@ -125,10 +127,9 @@ const PageFactory = () => {
                                 setPriceFeed={ setPriceFeed }
                             />
 
-                            <FactoryChooseStrategy 
-                                strategy={ strategy }
-                                setStrategy={ setStrategy }
-                            />                        
+                            <FactoryChooseBeefyVault
+                                setAddress={ setBeefyVault }
+                            />
                             
                         </div>
             

@@ -13,13 +13,16 @@ interface PropsFactoryChooseStrategy {
 export const FactoryChooseStrategy = (props: PropsFactoryChooseStrategy) => {        
     return (
         <div className="w-full">
+            
             <FactoryAction>
                 Choose strategy
             </FactoryAction>
+
             <AddressListbox
                 listOfAddress={ supportedStrategy }
                 setAssetAddress={ props.setStrategy }
             />
+
         </div>                
     );
 }
