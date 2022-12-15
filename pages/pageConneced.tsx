@@ -25,16 +25,14 @@ export const PageConnected = () => {
     
     let factoryAddress: string;
     if (network.chain?.name === "Polygon") {
-        factoryAddress = process.env.NEXT_PUBLIC_FACTORY_VAULT!;
-    } else {
         factoryAddress = process.env.NEXT_PUBLIC_FACTORY_VAULT_POLYGON!;
     }
 
-    const pools = useContractFactoryRead(factoryAddress, "getAllDiodePools");
+    const pools = useContractFactoryRead(factoryAddress!, "getAllDiodePools");
 
     let poolAddresses: Array<string> = [];
-    if (pools.value) {        
-        poolAddresses = pools.value.split(",");        
+    if (pools.value) {
+        poolAddresses = pools.value.split(",");
     }
     
     return (

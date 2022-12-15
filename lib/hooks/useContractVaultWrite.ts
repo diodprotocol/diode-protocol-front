@@ -12,7 +12,7 @@ const useContractVaultWrite = (contractAddress: string, functionName: string, ar
         args: args,
         cacheTime: 10_000,
         overrides: {
-            gasLimit: 1000000,
+            gasLimit: 2000000,
         },
     })
     const writeContract = useContractWrite(config);
